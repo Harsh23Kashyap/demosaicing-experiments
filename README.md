@@ -65,3 +65,34 @@ defect: odd height/width yields incorrect values in the last row/column. The
 38 supplied benchmark images have even dimensions and reproduce the recorded
 measurements; keep the historical implementation untouched when auditing those
 numbers. A fixed implementation would need separate validation and labeling.
+
+## Private source reacquisition and 80-image replay (28 Sep 2026)
+
+The previous Kodak/McMaster gap is now narrowed. Kodak 24 PNGs were downloaded
+from Rich Franzen's Kodak Lossless True Color Image Suite at
+https://r0k.us/graphics/kodak/ ; the original McMaster 18 TIFFs were downloaded
+from the university distributor at
+https://www4.comp.polyu.edu.hk/~cslzhang/CDM_Dataset.htm (its protected
+`McM.zip`). The 42 downloaded files were **not** added to this repository.
+`results/reacquired_source_hashes_kodak_mcm_42.csv` records the hashes and
+image sizes of these downloaded copies. These hashes are reproducible
+fingerprints of this reacquisition, not proof of the unknown original run's
+bytes. Running
+
+```
+python analysis/verify_kodak_mcmaster_42.py \
+  --kodak-dir /path/to/kodak-pngs --mcm-dir /path/to/extracted/McM
+```
+
+reproduced all 1,638 historical numeric cells for those 42 images within
+3.49e-9 absolute; `results/verification_kodak_mcm_42.csv` records each cell.
+Combined with the earlier BSD100/Urban100 replay, all 80 rows (3,120
+numerical descriptor/metric cells) now reproduce within saved CSV rounding.
+This result does not identify the original machine's runtime, establish the
+chronology of feature design, or grant image redistribution permission.
+
+The Kodak host says it is the maintainer's *understanding* that Kodak released
+images for unrestricted use, not a direct copyright license from Kodak. The
+McMaster distributor asks for citation of Zhang et al. (2011) and gives the
+ZIP password but does not state image redistribution terms. Retain source
+images privately and resolve rights before sharing or archiving image bytes.
