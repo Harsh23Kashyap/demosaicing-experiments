@@ -1,0 +1,31 @@
+{
+  "run_utc": "2026-09-28T02:05:35.619979+00:00",
+  "uname": {
+    "system": "Linux",
+    "node": "e2b.local",
+    "release": "6.1.158+",
+    "version": "#1 SMP PREEMPT_DYNAMIC Tue Jul 28 15:38:05 UTC 2026",
+    "machine": "x86_64",
+    "processor": "x86_64"
+  },
+  "python": "3.10.12 (main, Aug 31 2026, 10:18:17) [GCC 11.4.0]",
+  "cpu_model": "Intel(R) Xeon(R) Processor @ 2.60GHz",
+  "cpu_count_reported": 2,
+  "versions": {
+    "numpy": "2.2.6",
+    "scipy": "1.15.3",
+    "Pillow": "12.3.0",
+    "scikit-image": "0.25.2",
+    "colour-demosaicing": "0.2.6"
+  },
+  "timing": "perf_counter_ns, one untimed warm-up then three timed calls; median per image-method; medians across images",
+  "image_count": 38,
+  "methods": [
+    "nearest",
+    "bilinear",
+    "cdiff",
+    "malvar",
+    "alleysson",
+    "menon"
+  ]
+}

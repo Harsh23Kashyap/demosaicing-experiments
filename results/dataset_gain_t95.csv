@@ -1,0 +1,5 @@
+dataset,n,mean_gain_db,ci_method,ci95_low_db,ci95_high_db
+kodak,24,2.072030527,"two-sided Student t, per-image gain, df=n-1",1.342958154,2.801102900
+mcm,18,-1.837283996,"two-sided Student t, per-image gain, df=n-1",-3.262665344,-0.411902648
+bsd100,20,1.885687160,"two-sided Student t, per-image gain, df=n-1",1.308015796,2.463358524
+urban100,18,1.801770961,"two-sided Student t, per-image gain, df=n-1",0.448543454,3.154998469

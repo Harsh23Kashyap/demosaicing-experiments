@@ -1,0 +1,7 @@
+numpy==2.2.6
+scipy==1.15.3
+Pillow==12.3.0
+colour-demosaicing==0.2.6
+scikit-image==0.25.2
+scikit-learn==1.7.2
+matplotlib==3.10.9
