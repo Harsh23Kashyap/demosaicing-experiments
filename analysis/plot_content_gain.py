@@ -32,8 +32,8 @@ fig.tight_layout();fig.savefig(a.output_dir/'fig_saturation_gain.png');plt.close
 fig,ax=plt.subplots(figsize=(9.2,4.9),dpi=170)
 for d in datasets:
  g=np.sort(gain[[i for i,x in enumerate(rows) if x['dataset']==d]])
- y=(np.arange(len(g))+.5)/len(g)
- ax.step(g,y,where='mid',label=labels[d],color=colours[d],linewidth=2)
+ y=np.arange(1,len(g)+1)/len(g)
+ ax.step(g,y,where='post',label=labels[d],color=colours[d],linewidth=2)
 ax.axvline(0,color='#343434',lw=1.1)
 ax.set(xlabel='Menon PSNR gain over best measured-fast method (dB)',ylabel='Within-dataset fraction at or below gain')
 ax.legend(loc='upper left',fontsize=9);ax.grid(alpha=.18)
