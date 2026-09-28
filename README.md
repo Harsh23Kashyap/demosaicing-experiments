@@ -31,7 +31,7 @@ The broad measured-fast/slow ordering persists, but implementation/platform diff
 
 ## Gaps before submission
 
-- Recover or legally reacquire and checksum the exact Kodak/McMaster images before independently reproducing all 80 image reconstructions. The 80-image statistical recomputation currently uses the historical per-image measurements in the source CSV.
+- The 42 reacquired Kodak/McMaster files reproduce all historical numeric cells, but original-run file hashes were not recorded. Preserve that provenance distinction and resolve image rights before publication.
 - Determine whether the depth-2 selector feature set was selected before looking at outcomes or after the fact; the author is handling this provenance question. Do not overstate the out-of-sample 78.75% if there was post-hoc selection.
 - Audit individual method implementations, image preprocessing, descriptor definitions, scalar metrics and visual crop provenance against source data; test constant-image CFA behavior and inspect boundary handling.
 - Select an artifact access/archival route compatible with dataset licenses and venue anonymity. No DOI or anonymous reviewer access is claimed here.
@@ -46,8 +46,7 @@ Python 3.10; versions tested in `requirements.txt`, with exact runtime package v
 `python analysis/verify_supplied_38.py <path-to-extracted-images>` replays all
 1,482 numeric quality and descriptor cells (38 images, six methods, five metrics,
 nine descriptors) against the historical CSV. The maximum absolute error in the
-saved verification table was 1.23e-9 (printed CSV precision). This does **not**
-independently reproduce Kodak/McMaster. `python analysis/verify_selector.py`
+saved verification table was 1.23e-9 (printed CSV precision). Kodak/McMaster are independently replayed in the later section below. `python analysis/verify_selector.py`
 rechecks the 80-row depth-2 LOIO and correlation arithmetic; it cannot determine
 whether the predictor feature sets were selected before outcomes were inspected.
 
@@ -114,9 +113,7 @@ On Set14, the proxy tree selects the best measured-fast method for **7/12**
 images, the same number as constant Malvar. Mean PSNR regret relative to the
 per-image fast-tier oracle is **0.435 dB** for the tree versus **0.446 dB** for
 Malvar, a 0.011 dB difference too small to support an improvement claim here.
-The median bilinear-plus-descriptor acquisition cost was **175 ms/image** in
-this new run, exceeding any earlier fast-tier per-image method median; proxy
-cost is not included in the existing timing table. The 12 source file hashes,
+A subsequent repeat measured median **171.9 ms/image** for bilinear plus all nine descriptors and **82.8 ms/image** for bilinear plus only the selected saturation feature, on the same 12 images. Both are fresh-machine, unoptimized sequential timings and cannot be subtracted from or directly compared to the older fast-tier timings on another environment. Predictions and saturation values matched exactly. Proxy cost is not included in the existing method timing table. The 12 source file hashes,
 per-image decisions and costs are in `results/external_proxy_set14_12.csv`.
 No Set14 images are redistributed. This is a negative, small-sample check,
 not validation of an efficient deployable selector.

@@ -9,8 +9,8 @@ import argparse,csv,hashlib,sys,time
 from pathlib import Path
 import numpy as np
 from PIL import Image
+from skimage.color import rgb2hsv
 from sklearn.tree import DecisionTreeClassifier,export_text
-from sklearn.model_selection import LeaveOneOut
 sys.path.insert(0,str(Path(__file__).resolve().parents[1]/'source'))
 import pipeline
 
@@ -36,10 +36,12 @@ for path in sorted(a.set14.glob('*_HR.png')):
     x=pipeline.load_rgb8(path);lin=pipeline.srgb_to_linear(x);m=pipeline.mosaic_rggb(lin)
     ref=pipeline.to_srgb8(lin)
     t=time.perf_counter_ns();proxy=pipeline.linear_to_srgb(np.clip(pipeline.dem_bilinear(m),0,None));sat=pipeline.descriptors(proxy)['sat_mean'];proxy_ms=(time.perf_counter_ns()-t)/1e6
+    t=time.perf_counter_ns();lean_proxy=pipeline.linear_to_srgb(np.clip(pipeline.dem_bilinear(m),0,None));lean_sat=float(rgb2hsv(lean_proxy)[...,1].mean());lean_proxy_ms=(time.perf_counter_ns()-t)/1e6
+    if abs(lean_sat-sat)>1e-12:raise AssertionError((path,sat,lean_sat))
     score={name:pipeline.metrics(ref,pipeline.to_srgb8(np.clip(pipeline.METHODS[name](m),0,None)))[0] for name in fast}
     best=max(fast,key=lambda name:score[name]);pred=model.predict([[sat]])[0]
     rows.append({'image_id':path.name,'downloaded_sha256':hashlib.sha256(path.read_bytes()).hexdigest(), 'proxy_saturation':sat,
-                 'proxy_feature_ms':proxy_ms,'predicted_method':pred,'best_fast_method':best,'malvar_psnr':score['malvar'],
+                 'proxy_feature_ms':proxy_ms,'bilinear_saturation_only_ms':lean_proxy_ms,'predicted_method':pred,'best_fast_method':best,'malvar_psnr':score['malvar'],
                  'predicted_psnr':score[pred],'best_fast_psnr':score[best],
                  'predicted_regret_db':score[best]-score[pred], 'malvar_regret_db':score[best]-score['malvar']})
     print(path.name,'predicted',pred,'best',best,'proxy_ms',round(proxy_ms,1),flush=True)
@@ -48,4 +50,4 @@ with a.output.open('w',newline='') as f:
  w=csv.DictWriter(f,fieldnames=rows[0].keys());w.writeheader();w.writerows(rows)
 print('External Set14 RGB subset n',len(rows),'predictor correct',sum(x['predicted_method']==x['best_fast_method'] for x in rows),
       'Malvar correct',sum(x['best_fast_method']=='malvar' for x in rows),'mean policy regret',np.mean([x['predicted_regret_db'] for x in rows]),
-      'mean Malvar regret',np.mean([x['malvar_regret_db'] for x in rows]),'median proxy+feature ms',np.median([x['proxy_feature_ms'] for x in rows]))
+      'mean Malvar regret',np.mean([x['malvar_regret_db'] for x in rows]),'median proxy+feature ms',np.median([x['proxy_feature_ms'] for x in rows]),'median bilinear+saturation-only ms',np.median([x['bilinear_saturation_only_ms'] for x in rows]))
