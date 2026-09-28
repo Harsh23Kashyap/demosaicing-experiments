@@ -120,3 +120,17 @@ cost is not included in the existing timing table. The 12 source file hashes,
 per-image decisions and costs are in `results/external_proxy_set14_12.csv`.
 No Set14 images are redistributed. This is a negative, small-sample check,
 not validation of an efficient deployable selector.
+
+## Recovered visual crops
+
+`python analysis/regenerate_case_figures.py --image-root /path/to/extracted-images`
+rebuilds the three visual case panels from the original pipeline (using its
+final Alleysson variant) and the exact source-coordinate square crops:
+Urban100 042 at `(x=64, y=128, width=192, height=192)`, Urban100 081 at
+`(320,128,192,192)`, BSD100 012 at `(256,128,192,192)`. These coordinates
+were independently recovered by matching the reference panels of the prior
+figures against full source images: normalized template correlations 0.9959,
+0.9972 and 0.9938. New figures were visually inspected. The regenerated
+panels are *new plots* from the recovered source code, not a claim of bytewise
+identity with the unknown historical plotting script. Raw source images remain
+outside this repo.
