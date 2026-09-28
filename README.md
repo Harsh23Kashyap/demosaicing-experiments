@@ -135,3 +135,17 @@ outside this repo.
 ## Paired Set14 component timing (28 Sep 2026)
 
 `analysis/benchmark_proxy_paired_set14.py` times the lean bilinear-plus-saturation proxy and four relevant reconstruction methods on each of the same 12 Set14 mosaics, one warm-up and three calls per method, interleaved order. Raw paired samples are in `results/proxy_paired_set14_12.csv` (no image bytes). Across-image medians (ms): proxy 90.60, Menon 94.70, Malvar 26.15, bilinear 28.18, colour-difference 51.93. The proxy alone exceeds each fast method for all 12 images, but exceeds Menon on only 3/12; median within-image proxy-minus-Menon difference is -4.96 ms. This is one unoptimised machine/process and includes neither end-to-end branching nor I/O; do not directly compare to the old 38-image run. The predictor's 7/12 accuracy does not improve the constant Malvar baseline.
+
+## Set14 timing provenance correction
+
+The first saved scoring run `results/external_proxy_set14_12.csv` has a legacy
+`proxy_feature_ms` header, but its script times bilinear reconstruction plus
+`descriptors(proxy)` (all nine descriptors), not saturation alone. Its median
+is 175.4065 ms. A later separately logged pass in
+`results/external_proxy_set14_12_with_lean_timing.csv` times both all-nine
+(171.9434 ms) and bilinear+saturation-only (82.7707 ms). These are independent
+sequential timing passes and not the interleaved paired Set14 comparison. The
+script's output header is corrected to `all_nine_descriptors_proxy_ms` for
+future runs, but historical CSV bytes are preserved with this explicit
+field explanation. The paired run's machine/UTC stdout is captured in
+`results/proxy_paired_set14_environment.txt`.

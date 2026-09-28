@@ -1,0 +1,18 @@
+img_001_SRF_2_HR.png
+img_002_SRF_2_HR.png
+img_004_SRF_2_HR.png
+img_005_SRF_2_HR.png
+img_006_SRF_2_HR.png
+img_007_SRF_2_HR.png
+img_008_SRF_2_HR.png
+img_010_SRF_2_HR.png
+img_011_SRF_2_HR.png
+img_012_SRF_2_HR.png
+img_013_SRF_2_HR.png
+img_014_SRF_2_HR.png
+proxy_bilinear_saturation across-image median 90.5954595
+menon across-image median 94.6965175
+malvar across-image median 26.146038500000003
+bilinear across-image median 28.1755655
+cdiff across-image median 51.9325275
+machine uname_result(system='Linux', node='e2b.local', release='6.1.158+', version='#1 SMP PREEMPT_DYNAMIC Tue Jul 28 15:38:05 UTC 2026', machine='x86_64') UTC 2026-09-28T04:35:20.055223+00:00
