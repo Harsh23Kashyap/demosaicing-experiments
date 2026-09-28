@@ -96,3 +96,27 @@ images for unrestricted use, not a direct copyright license from Kodak. The
 McMaster distributor asks for citation of Zhang et al. (2011) and gives the
 ZIP password but does not state image redistribution terms. Retain source
 images privately and resolve rights before sharing or archiving image bytes.
+
+## Out-of-domain proxy check (exploratory, negative)
+
+`python analysis/external_proxy_set14.py --source80 /path/to/all80 \
+--set14 /path/to/Set14/image_SRF_2` fits the depth-2 proxy-saturation
+classifier on all 80 source images, then applies it without refitting to the
+Set14 HR images hosted in the SelfExSR repository:
+https://github.com/jbhuang0604/SelfExSR/tree/master/data/Set14/image_SRF_2 .
+This test excludes one grayscale source image and the Lenna image *before*
+evaluation, leaving 12 RGB images. The training feature is HSV mean saturation
+of a cheap bilinear reconstruction from the mosaic, not the full reference.
+The test is a different super-resolution benchmark, not camera RAW. The
+source-80 feature choice itself followed a 38-image exploratory analysis.
+
+On Set14, the proxy tree selects the best measured-fast method for **7/12**
+images, the same number as constant Malvar. Mean PSNR regret relative to the
+per-image fast-tier oracle is **0.435 dB** for the tree versus **0.446 dB** for
+Malvar, a 0.011 dB difference too small to support an improvement claim here.
+The median bilinear-plus-descriptor acquisition cost was **175 ms/image** in
+this new run, exceeding any earlier fast-tier per-image method median; proxy
+cost is not included in the existing timing table. The 12 source file hashes,
+per-image decisions and costs are in `results/external_proxy_set14_12.csv`.
+No Set14 images are redistributed. This is a negative, small-sample check,
+not validation of an efficient deployable selector.
