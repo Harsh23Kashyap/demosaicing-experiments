@@ -63,7 +63,7 @@ Synthetic constant-image checks reveal a historical nearest-neighbour boundary
 defect: odd height/width yields incorrect values in the last row/column. The
 38 supplied benchmark images have even dimensions and reproduce the recorded
 measurements; keep the historical implementation untouched when auditing those
-numbers. A fixed implementation would need separate validation and labeling.
+numbers. A corrected floor lives in `analysis/nearest_boundary_fixed.py`, with constant-image odd/even, measured-CFA-site, and even-size equivalence checks in `analysis/test_nearest_boundary_fixed.py`. The historical source remains untouched for replay. This is a tested boundary fix, not a general artifact validation.
 
 ## Private source reacquisition and 80-image replay (28 Sep 2026)
 
@@ -131,3 +131,7 @@ figures against full source images: normalized template correlations 0.9959,
 panels are *new plots* from the recovered source code, not a claim of bytewise
 identity with the unknown historical plotting script. Raw source images remain
 outside this repo.
+
+## Paired Set14 component timing (28 Sep 2026)
+
+`analysis/benchmark_proxy_paired_set14.py` times the lean bilinear-plus-saturation proxy and four relevant reconstruction methods on each of the same 12 Set14 mosaics, one warm-up and three calls per method, interleaved order. Raw paired samples are in `results/proxy_paired_set14_12.csv` (no image bytes). Across-image medians (ms): proxy 90.60, Menon 94.70, Malvar 26.15, bilinear 28.18, colour-difference 51.93. The proxy alone exceeds each fast method for all 12 images, but exceeds Menon on only 3/12; median within-image proxy-minus-Menon difference is -4.96 ms. This is one unoptimised machine/process and includes neither end-to-end branching nor I/O; do not directly compare to the old 38-image run. The predictor's 7/12 accuracy does not improve the constant Malvar baseline.
