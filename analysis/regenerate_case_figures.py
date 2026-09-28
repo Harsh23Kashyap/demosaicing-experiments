@@ -14,9 +14,9 @@ import pipeline
 from final80_variant_original import dem_alleysson_final
 
 CASES={
- 'high_gain':('urban100/img_042.png',(64,128,192,192),'High Gain: urban100/img_042.png'),
- 'counterexample':('urban100/img_081.png',(320,128,192,192),'Counterexample: urban100/img_081.png'),
- 'near_tie':('bsd100/img_012.png',(256,128,192,192),'Near Tie: bsd100/img_012.png')}
+ 'high_gain':('urban100/img_042.png',(64,128,192,192),'High gain: Urban100 image 042'),
+ 'counterexample':('urban100/img_081.png',(320,128,192,192),'Counterexample: Urban100 image 081'),
+ 'near_tie':('bsd100/img_012.png',(256,128,192,192),'Near tie: BSD100 image 012')}
 METHODS={**pipeline.METHODS,'alleysson':dem_alleysson_final}
 p=argparse.ArgumentParser();p.add_argument('--image-root',type=Path,required=True);p.add_argument('--output-dir',type=Path,default=Path('figures'));a=p.parse_args();a.output_dir.mkdir(parents=True,exist_ok=True)
 for name,(rel,(x,y,w,h),title) in CASES.items():
