@@ -24,10 +24,21 @@ def test_observed_cfa_sites_all_parities():
             np.testing.assert_array_equal(out[1::2,0::2,1],m[1::2,0::2])
             np.testing.assert_array_equal(out[1::2,1::2,2],m[1::2,1::2])
 
+def test_odd_nonconstant_green_neighbour():
+    for h,w in ((3,3),(3,5),(5,3),(5,5),(6,5),(5,6)):
+        m=np.arange(h*w,dtype=float).reshape(h,w)+.125
+        out=dem_nearest_fixed(m)
+        for y in range(h):
+            for x in range(w):
+                if (y+x)%2==1: continue  # directly measured green site
+                nearby=[xx for xx in (x-1,x+1) if 0<=xx<w and (y+xx)%2==1]
+                assert nearby,(h,w,y,x)
+                assert out[y,x,1] in [m[y,xx] for xx in nearby],(h,w,y,x,out[y,x,1])
+
 def test_even_historical_equivalence():
     for h,w in ((2,2),(4,6),(8,8),(12,10)):
         m=np.random.default_rng(h*100+w).random((h,w))
         np.testing.assert_array_equal(dem_nearest_fixed(m),pipeline.dem_nearest(m))
 
 if __name__=='__main__':
-    test_constant_odd_even();test_observed_cfa_sites_all_parities();test_even_historical_equivalence();print('nearest odd/even fixed tests pass')
+    test_constant_odd_even();test_observed_cfa_sites_all_parities();test_odd_nonconstant_green_neighbour();test_even_historical_equivalence();print('nearest odd/even fixed tests pass')

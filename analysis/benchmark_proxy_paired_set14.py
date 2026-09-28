@@ -2,6 +2,8 @@
 
 Each image/method has one warmup and three alternating-order measurements; we
 report the within-image median and then across-image median. No IO/mosaic time.
+Exclude Set14 img_003 because it is grayscale and img_009 (Lenna) before both
+classifier evaluation and timing; the same 12 RGB files are used for both.
 """
 import csv,sys,time,platform,datetime
 from pathlib import Path
