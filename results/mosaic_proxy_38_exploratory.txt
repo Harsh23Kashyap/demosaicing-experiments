@@ -1,0 +1,5 @@
+Constant majority baseline: (33, 'malvar')
+saturation mean 35 /38
+colour variance 33 /38
+gradient structure 33 /38
+all nine 33 /38

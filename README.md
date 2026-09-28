@@ -40,3 +40,28 @@ The broad measured-fast/slow ordering persists, but implementation/platform diff
 ## Dependencies
 
 Python 3.10; versions tested in `requirements.txt`, with exact runtime package versions and machine details in `results/runtime_environment.json`. Install with `python -m pip install -r requirements.txt`. This repository intentionally excludes raw licensed images and secrets.
+
+## Independent pixel-level replay and proxy exploration
+
+`python analysis/verify_supplied_38.py <path-to-extracted-images>` replays all
+1,482 numeric quality and descriptor cells (38 images, six methods, five metrics,
+nine descriptors) against the historical CSV. The maximum absolute error in the
+saved verification table was 1.23e-9 (printed CSV precision). This does **not**
+independently reproduce Kodak/McMaster. `python analysis/verify_selector.py`
+rechecks the 80-row depth-2 LOIO and correlation arithmetic; it cannot determine
+whether the predictor feature sets were selected before outcomes were inspected.
+
+`python analysis/mosaic_proxy_38.py <path-to-extracted-images>` explores
+pre-choice descriptors derived from a bilinear mosaic reconstruction. On these
+38 images alone, constant Malvar gets 33/38 and depth-2 LOIO with proxy
+saturation gets 35/38; the other inspected feature sets get 33/38. This is a
+post-hoc exploratory, internally cross-validated result, **not** an external
+validation or a prospective 80-image claim. Bilinear reconstruction and
+nine-descriptor extraction add compute cost; their latency is not included in
+the existing method timing table. No threshold is recommended for deployment.
+
+Synthetic constant-image checks reveal a historical nearest-neighbour boundary
+defect: odd height/width yields incorrect values in the last row/column. The
+38 supplied benchmark images have even dimensions and reproduce the recorded
+measurements; keep the historical implementation untouched when auditing those
+numbers. A fixed implementation would need separate validation and labeling.
