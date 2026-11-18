@@ -1,5 +1,7 @@
 # Classical Bayer demosaicing experiment audit
 
+Latest arXiv preprint: https://arxiv.org/abs/2611.20854
+
 This repository records an audit of the 80-image demosaicing study and a fresh runtime run. It is a working research artifact, **not** a claim that all experiments or a manuscript are finalized.
 
 ## Provenance
